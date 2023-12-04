@@ -1,11 +1,12 @@
 import { ImgData } from '../types/img.data.js';
+import { Category } from './category.js';
 import { User } from './user.js';
 
 export type Product = {
   id: string;
   name: string;
   price: number;
-  category: string;
+  category: Category;
   description: string;
   modelImg: ImgData;
   refImg: ImgData;
