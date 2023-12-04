@@ -5,7 +5,7 @@ import createDebug from 'debug';
 
 const debug = createDebug('AB:index');
 
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT ?? 3030;
 
 dbConnect()
   .then((mongoose) => {
