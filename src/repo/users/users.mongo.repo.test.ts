@@ -32,6 +32,7 @@ describe('Given UsersMongoRepo', () => {
       });
 
       Auth.compare = jest.fn().mockReturnValue(true);
+      Auth.hashPassword = jest.fn();
 
       repo = new UsersMongoRepo();
     });
