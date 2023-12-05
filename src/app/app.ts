@@ -12,9 +12,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static('public'));
 
+app.use('/users', usersRouter);
+
 app.use((_req: Request, _res: Response, next: NextFunction) => {
   debug('Error Middleware');
   next('error');
 });
-
-app.use('/users', usersRouter);
