@@ -27,6 +27,7 @@ export class UsersMongoRepo implements Repository<User> {
   }
 
   async create(newItem: Omit<User, 'id'>): Promise<User> {
+    newItem.password = await Auth.hashPassword(newItem.password);
     const result = await UserModel.create(newItem);
     return result;
   }
