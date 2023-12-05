@@ -10,6 +10,7 @@
     "build": "tsc -w",
     "test": "jest --watchAll --coverage",
     "test:prod": "jest --watchAll --coverage --watchAll=false --passWithNoTests",
+    "test:coverage": "jest --watchAll --coverage", 
     "prepare": "husky install"
   },
   "keywords": [],
