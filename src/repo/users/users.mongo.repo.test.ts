@@ -1,6 +1,6 @@
-import { User } from '../../entities/user';
-import { Auth } from '../../services/auth';
-import { UserModel } from './users.mongo.model';
+import { User } from '../../entities/user.js';
+import { Auth } from '../../services/auth.js';
+import { UserModel } from './users.mongo.model.js';
 import { UsersMongoRepo } from './users.mongo.repo.js';
 
 describe('Given UsersMongoRepo', () => {
