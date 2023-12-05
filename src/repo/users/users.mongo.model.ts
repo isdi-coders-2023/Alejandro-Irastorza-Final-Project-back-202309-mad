@@ -15,6 +15,7 @@ const usersSchema = new Schema<User>({
   },
   email: {
     type: String,
+    unique: true,
     required: true,
   },
   password: {
@@ -23,6 +24,7 @@ const usersSchema = new Schema<User>({
   },
   role: {
     type: String,
+    default: 'SubAdmin',
   },
   profilePic: {
     publicId: String,
@@ -40,6 +42,7 @@ usersSchema.set('toJSON', {
     delete returnedObject._id;
     delete returnedObject.__v;
     delete returnedObject.password;
+    delete returnedObject.role;
   },
 });
 
