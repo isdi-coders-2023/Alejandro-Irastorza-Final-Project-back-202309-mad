@@ -1,4 +1,5 @@
 import { User } from '../../entities/user';
+import { Auth } from '../../services/auth';
 import { UserModel } from './users.mongo.model';
 import { UsersMongoRepo } from './users.mongo.repo.js';
 
@@ -21,12 +22,19 @@ describe('Given UsersMongoRepo', () => {
       UserModel.findByIdAndUpdate = jest.fn().mockReturnValue({
         exec,
       });
+
+      UserModel.findByIdAndDelete = jest
+        .fn()
+        .mockResolvedValue('Example result value');
+
+      UserModel.findOne = jest.fn().mockReturnValue({
+        exec,
+      });
+
+      Auth.compare = jest.fn().mockReturnValue(true);
+
       repo = new UsersMongoRepo();
     });
-
-    UserModel.findByIdAndDelete = jest
-      .fn()
-      .mockResolvedValue('Example result value');
 
     test('Then it should execute getAll()', async () => {
       const result = await repo.getAll();
@@ -55,6 +63,11 @@ describe('Given UsersMongoRepo', () => {
       const result = await repo.delete('');
       expect(result).toBe(undefined);
     });
+
+    test('Then it should execute login()', async () => {
+      const result = await repo.login({} as User);
+      expect(result).toBe('Example result value');
+    });
   });
 
   describe('When we instantiate it with errors', () => {
@@ -76,6 +89,10 @@ describe('Given UsersMongoRepo', () => {
 
       UserModel.findByIdAndDelete = jest.fn().mockReturnValue(undefined);
 
+      UserModel.findOne = jest.fn().mockReturnValue({
+        exec,
+      });
+
       repo = new UsersMongoRepo();
     });
 
@@ -95,6 +112,10 @@ describe('Given UsersMongoRepo', () => {
 
     test('Then should execute update() throwing an error', async () => {
       expect(repo.delete('')).rejects.toThrow();
+    });
+
+    test('Then should execute login() throwing an error', async () => {
+      expect(repo.login({} as User)).rejects.toThrow();
     });
   });
 });

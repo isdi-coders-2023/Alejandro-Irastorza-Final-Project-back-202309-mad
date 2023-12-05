@@ -3,6 +3,7 @@ import { User } from '../../entities/user.js';
 import { Repository } from '../repo.js';
 import { UserModel } from './users.mongo.model.js';
 import { HttpError } from '../../types/http.error/http.error.js';
+import { Auth } from '../../services/auth.js';
 
 const debug = createDebug('AB:users:mongo:repo');
 
@@ -49,8 +50,15 @@ export class UsersMongoRepo implements Repository<User> {
   }
 
   async delete(id: string): Promise<void> {
-    const result = UserModel.findByIdAndDelete(id);
+    const result = await UserModel.findByIdAndDelete(id);
     if (!result)
       throw new HttpError(404, 'Not Found', 'Delete was not possible');
+  }
+
+  async login(loginUser: User): Promise<User> {
+    const result = await UserModel.findOne({ email: loginUser.email }).exec();
+    if (!result || !(await Auth.compare(loginUser.password, result.password)))
+      throw new HttpError(401, 'Unauthorized');
+    return result;
   }
 }
