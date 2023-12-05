@@ -1,5 +1,4 @@
 import { User } from '../../entities/user';
-import { HttpError } from '../../types/http.error/http.error';
 import { UserModel } from './users.mongo.model';
 import { UsersMongoRepo } from './users.mongo.repo.js';
 
