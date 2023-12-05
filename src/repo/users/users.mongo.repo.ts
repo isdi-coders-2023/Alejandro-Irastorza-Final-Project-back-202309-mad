@@ -2,7 +2,7 @@ import createDebug from 'debug';
 import { User } from '../../entities/user.js';
 import { Repository } from '../repo.js';
 import { UserModel } from './users.mongo.model.js';
-import { HttpError } from '../../types/http.error/http.error.js';
+import { HttpError } from '../../types/http.error/http.error';
 
 const debug = createDebug('AB:users:mongo:repo');
 
