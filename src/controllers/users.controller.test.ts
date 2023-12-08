@@ -12,6 +12,7 @@ jest.mock('../services/auth.js', () => ({
 describe('Given UsersController class', () => {
   let controller: UsersController;
   let mockRequest: Request;
+  let mockRequestWithNoFile: Request;
   let mockResponse: Response;
   let mockNext: jest.Mock;
   let mockFile;
@@ -40,6 +41,12 @@ describe('Given UsersController class', () => {
       status: jest.fn(),
       statusMessage: '',
     } as unknown as Response;
+
+    mockRequestWithNoFile = {
+      body: {},
+      params: {},
+      query: { key: 'value' },
+    } as unknown as Request;
 
     mockNext = jest.fn();
   });
@@ -112,7 +119,7 @@ describe('Given UsersController class', () => {
     });
 
     test('Then create should...', async () => {
-      await controller.create(mockRequest, mockResponse, mockNext);
+      await controller.create(mockRequestWithNoFile, mockResponse, mockNext);
       expect(mockNext).toHaveBeenCalled();
     });
 
