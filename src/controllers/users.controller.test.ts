@@ -2,6 +2,12 @@ import { Request, Response } from 'express';
 import { UsersController } from './users.controller';
 import { UsersMongoRepo } from '../repo/users/users.mongo.repo.js';
 
+jest.mock('../services/auth.js', () => ({
+  Auth: {
+    getTokenJWT: jest.fn().mockReturnValue(''),
+  },
+}));
+
 describe('Given UsersController class', () => {
   let controller: UsersController;
   let mockRequest: Request;
@@ -52,7 +58,7 @@ describe('Given UsersController class', () => {
 
     test('Then login should...', async () => {
       await controller.login(mockRequest, mockResponse, mockNext);
-      expect(mockResponse.json).toHaveBeenCalledWith({});
+      expect(mockResponse.json).toHaveBeenCalledWith({ token: '', user: {} });
     });
 
     test('Then getAll should...', async () => {
