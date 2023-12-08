@@ -1,12 +1,14 @@
-/* eslint-disable no-useless-constructor */
 import { NextFunction, Request, Response } from 'express';
 import { Repository } from '../repo/repo.js';
+import { MediaFiles } from '../services/media.file.js';
 
 export abstract class Controller<T extends { id: unknown }> {
-  // CloudinaryService: MediaFiles
+  cloudinaryService: MediaFiles;
 
   // eslint-disable-next-line no-unused-vars
-  constructor(protected repo: Repository<T>) {}
+  constructor(protected repo: Repository<T>) {
+    this.cloudinaryService = new MediaFiles();
+  }
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {

@@ -5,6 +5,7 @@ import { UsersMongoRepo } from '../repo/users/users.mongo.repo.js';
 import { NextFunction, Request, Response } from 'express';
 import { Auth } from '../services/auth.js';
 import { LoginResponse } from '../types/login.response.js';
+import { HttpError } from '../types/http.error/http.error.js';
 
 const debug = createDebug('AB:users:controller');
 
@@ -25,6 +26,22 @@ export class UsersController extends Controller<User> {
       res.status(200);
       res.statusMessage = 'Ok';
       res.json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async create(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.file)
+        throw new HttpError(406, 'Not Acceptable', 'Multer file is invalid');
+
+      const imgData = await this.cloudinaryService.uploadImageToCloudinary(
+        req.file.path
+      );
+
+      req.body.profilePic = imgData;
+      super.create(req, res, next);
     } catch (error) {
       next(error);
     }
