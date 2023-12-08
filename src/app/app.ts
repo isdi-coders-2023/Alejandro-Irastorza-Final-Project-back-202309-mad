@@ -2,11 +2,12 @@ import express, { NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 import createDebug from 'debug';
 import { usersRouter } from '../routers/users.router.js';
+import cors from 'cors';
 
 const debug = createDebug('AB:App');
 
 export const app = express();
-app.disable('x-powered-by');
+app.use(cors());
 
 app.use(morgan('dev'));
 app.use(express.json());
