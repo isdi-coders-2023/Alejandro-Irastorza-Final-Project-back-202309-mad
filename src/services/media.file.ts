@@ -2,7 +2,7 @@
 import createDebug from 'debug';
 import { v2 as cloudinary } from 'cloudinary';
 import { ImgData } from '../types/img.data';
-import { HttpError } from '../types/http.error/http.error';
+import { HttpError } from '../types/http.error/http.error.js';
 
 const debug = createDebug('AB:mediaFiles');
 
