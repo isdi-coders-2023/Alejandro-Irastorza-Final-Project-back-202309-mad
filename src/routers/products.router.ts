@@ -19,3 +19,14 @@ productsRouter.post(
   fileInterceptor.singleFileStore('modelImg').bind(fileInterceptor),
   controller.create.bind(controller)
 );
+
+productsRouter.patch(
+  '/admin/products/:id',
+  fileInterceptor.singleFileStore('modelImg').bind(fileInterceptor),
+  controller.update.bind(controller)
+);
+
+productsRouter.delete(
+  '/admin/products/:id',
+  controller.delete.bind(controller)
+);
