@@ -30,18 +30,14 @@ export class ProdcutsController extends Controller<Product> {
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
-    try {
-      if (req.file) {
-        const imgData = await this.cloudinaryService.uploadImageToCloudinary(
-          req.file.path
-        );
+    if (req.file) {
+      const imgData = await this.cloudinaryService.uploadImageToCloudinary(
+        req.file.path
+      );
 
-        req.body.modelImg = imgData;
-      }
-
-      super.update(req, res, next);
-    } catch (error) {
-      next(error);
+      req.body.modelImg = imgData;
     }
+
+    super.update(req, res, next);
   }
 }
