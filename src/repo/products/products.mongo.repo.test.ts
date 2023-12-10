@@ -22,9 +22,9 @@ describe('Given ProductsMongoRepo', () => {
         exec,
       });
 
-      ProductModel.findByIdAndDelete = jest
-        .fn()
-        .mockResolvedValue('Example result value');
+      ProductModel.findByIdAndDelete = jest.fn().mockReturnValue({
+        exec,
+      });
 
       ProductModel.findOne = jest.fn().mockReturnValue({
         exec,
@@ -59,6 +59,7 @@ describe('Given ProductsMongoRepo', () => {
     test('Then it should execute delete()', async () => {
       const result = await repo.delete('');
       expect(result).toBe(undefined);
+      expect(exec).toHaveBeenCalled();
     });
   });
 
@@ -78,7 +79,9 @@ describe('Given ProductsMongoRepo', () => {
         exec,
       });
 
-      ProductModel.findByIdAndDelete = jest.fn().mockReturnValue(undefined);
+      ProductModel.findByIdAndDelete = jest.fn().mockResolvedValue({
+        exec,
+      });
 
       ProductModel.findOne = jest.fn().mockReturnValue({
         exec,
@@ -102,7 +105,7 @@ describe('Given ProductsMongoRepo', () => {
       expect(repo.update('', {} as Partial<Product>)).rejects.toThrow();
     });
 
-    test('Then should execute update() throwing an error', async () => {
+    test('Then should execute delete() throwing an error', async () => {
       expect(repo.delete('')).rejects.toThrow();
     });
 
