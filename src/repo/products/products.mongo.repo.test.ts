@@ -79,7 +79,7 @@ describe('Given ProductsMongoRepo', () => {
         exec,
       });
 
-      ProductModel.findByIdAndDelete = jest.fn().mockResolvedValue({
+      ProductModel.findByIdAndDelete = jest.fn().mockReturnValue({
         exec,
       });
 
