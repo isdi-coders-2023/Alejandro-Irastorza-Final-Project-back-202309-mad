@@ -27,8 +27,7 @@ const productsSchema = new Schema<Product>({
     type: Boolean,
   },
   category: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
+    type: String,
   },
   modelImg: {
     publicId: String,
