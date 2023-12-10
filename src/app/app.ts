@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import createDebug from 'debug';
 import { usersRouter } from '../routers/users.router.js';
 import cors from 'cors';
+import { productsRouter } from '../routers/products.router.js';
 
 const debug = createDebug('AB:App');
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.use('/users', usersRouter);
+app.use('/products', productsRouter);
 
 app.use((_req: Request, _res: Response, next: NextFunction) => {
   debug('Error Middleware');
