@@ -32,18 +32,14 @@ export class UsersController extends Controller<User> {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-    try {
-      if (!req.file)
-        throw new HttpError(406, 'Not Acceptable', 'Multer file is invalid');
+    if (!req.file)
+      throw new HttpError(406, 'Not Acceptable', 'Multer file is invalid');
 
-      const imgData = await this.cloudinaryService.uploadImageToCloudinary(
-        req.file.path
-      );
+    const imgData = await this.cloudinaryService.uploadImageToCloudinary(
+      req.file.path
+    );
 
-      req.body.profilePic = imgData;
-      super.create(req, res, next);
-    } catch (error) {
-      next(error);
-    }
+    req.body.profilePic = imgData;
+    super.create(req, res, next);
   }
 }

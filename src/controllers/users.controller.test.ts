@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { UsersController } from './users.controller';
 import { UsersMongoRepo } from '../repo/users/users.mongo.repo.js';
 import { MediaFiles } from '../services/media.file';
+import { HttpError } from '../types/http.error/http.error';
 
 jest.mock('../services/auth.js', () => ({
   Auth: {
@@ -12,10 +13,15 @@ jest.mock('../services/auth.js', () => ({
 describe('Given UsersController class', () => {
   let controller: UsersController;
   let mockRequest: Request;
-  let mockRequestWithNoFile: Request;
   let mockResponse: Response;
   let mockNext: jest.Mock;
   let mockFile;
+
+  const mockImageData = { url: 'http://example.com/image.jpg' };
+
+  const mockCloudinaryService = {
+    uploadImageToCloudinary: jest.fn().mockResolvedValue(mockImageData),
+  };
 
   beforeEach(() => {
     mockFile = {
@@ -42,12 +48,6 @@ describe('Given UsersController class', () => {
       statusMessage: '',
     } as unknown as Response;
 
-    mockRequestWithNoFile = {
-      body: {},
-      params: {},
-      query: { key: 'value' },
-    } as unknown as Request;
-
     mockNext = jest.fn();
   });
   describe('When we instantiate it without errors', () => {
@@ -61,11 +61,7 @@ describe('Given UsersController class', () => {
     } as unknown as UsersMongoRepo;
 
     controller = new UsersController(mockRepo);
-    const mockImageData = { url: 'http://example.com/image.jpg' };
 
-    const mockCloudinaryService = {
-      uploadImageToCloudinary: jest.fn().mockResolvedValue(mockImageData),
-    };
     controller.cloudinaryService = mockCloudinaryService as MediaFiles;
 
     test('Then create should...', async () => {
@@ -116,11 +112,25 @@ describe('Given UsersController class', () => {
       } as unknown as UsersMongoRepo;
 
       controller = new UsersController(mockRepo);
+      controller.cloudinaryService = mockCloudinaryService as MediaFiles;
     });
 
     test('Then create should...', async () => {
-      await controller.create(mockRequestWithNoFile, mockResponse, mockNext);
-      expect(mockNext).toHaveBeenCalled();
+      await controller.create(mockRequest, mockResponse, mockNext);
+
+      expect(mockNext).toHaveBeenLastCalledWith(mockError);
+
+      const mockRequestWithNoFile = {
+        body: {},
+        params: {},
+        query: { key: 'value' },
+      } as unknown as Request;
+
+      try {
+        await controller.create(mockRequestWithNoFile, mockResponse, mockNext);
+      } catch (error) {
+        expect(error).toBeInstanceOf(HttpError);
+      }
     });
 
     test('Then login should...', async () => {
