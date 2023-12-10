@@ -50,7 +50,8 @@ export class ProductsMongoRepo implements Repository<Product> {
   }
 
   async delete(id: string): Promise<void> {
-    const result = ProductModel.findByIdAndDelete(id);
+    const result = ProductModel.findByIdAndDelete(id).exec();
+
     if (!result)
       throw new HttpError(406, 'Not Found', 'Delete was not possible');
   }
