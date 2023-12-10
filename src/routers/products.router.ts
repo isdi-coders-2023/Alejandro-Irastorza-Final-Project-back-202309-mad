@@ -30,3 +30,5 @@ productsRouter.delete(
   '/admin/products/:id',
   controller.delete.bind(controller)
 );
+
+productsRouter.get('/admin/products/:id', controller.getById.bind(controller));
