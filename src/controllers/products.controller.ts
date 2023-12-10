@@ -1,9 +1,9 @@
-import { Product } from '../entities/product';
+import { Product } from '../entities/product.js';
 import { ProductsMongoRepo } from '../repo/products/products.mongo.repo';
 import createDebug from 'debug';
-import { Controller } from './controller';
+import { Controller } from './controller.js';
 import { NextFunction, Request, Response } from 'express';
-import { HttpError } from '../types/http.error/http.error';
+import { HttpError } from '../types/http.error/http.error.js';
 
 const debug = createDebug('AB:products:controller');
 

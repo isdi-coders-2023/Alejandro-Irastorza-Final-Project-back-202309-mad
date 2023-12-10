@@ -1,8 +1,8 @@
-import { Product } from '../../entities/product';
-import { Repository } from '../repo';
+import { Product } from '../../entities/product.js';
+import { Repository } from '../repo.js';
 import createDebug from 'debug';
-import { ProductModel } from './products.mongo.model';
-import { HttpError } from '../../types/http.error/http.error';
+import { ProductModel } from './products.mongo.model.js';
+import { HttpError } from '../../types/http.error/http.error.js';
 
 const debug = createDebug('AB:products:mongo:repo');
 
