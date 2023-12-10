@@ -53,10 +53,6 @@ describe('Given UsersController class', () => {
   describe('When we instantiate it without errors', () => {
     const mockRepo = {
       create: jest.fn().mockResolvedValue({}),
-      // GetById: jest.fn().mockResolvedValue({}),
-      // update: jest.fn().mockResolvedValue({}),
-      // delete: jest.fn().mockResolvedValue(undefined),
-      // getAll: jest.fn().mockResolvedValue([{}]),
     } as unknown as ProductsMongoRepo;
 
     controller = new ProdcutsController(mockRepo);
@@ -77,21 +73,6 @@ describe('Given UsersController class', () => {
         mockCloudinaryService.uploadImageToCloudinary
       ).toHaveBeenCalledWith('/tmp/test.jpg');
     });
-
-    // Test('Then update should...', async () => {
-    //   await controller.update(mockRequest, mockResponse, mockNext);
-    //   expect(mockResponse.json).toHaveBeenCalledWith({});
-    // });
-
-    // test('Then delete should...', async () => {
-    //   await controller.delete(mockRequest, mockResponse, mockNext);
-    //   expect(mockResponse.json).toHaveBeenCalledWith({});
-    // });
-
-    // test('Then getAll should...', async () => {
-    //   await controller.getAll(mockRequest, mockResponse, mockNext);
-    //   expect(mockResponse.json).toHaveBeenCalledWith([{}]);
-    // });
   });
 
   describe('When we instantiate with errors', () => {
@@ -116,25 +97,5 @@ describe('Given UsersController class', () => {
       await controller.create(mockRequestWithNoFile, mockResponse, mockNext);
       expect(mockNext).toHaveBeenCalled();
     });
-
-    // Test('Then login should...', async () => {
-    //   await controller.login(mockRequest, mockResponse, mockNext);
-    //   expect(mockNext).toHaveBeenLastCalledWith(mockError);
-    // });
-
-    // test('Then update should...', async () => {
-    //   await controller.update(mockRequest, mockResponse, mockNext);
-    //   expect(mockNext).toHaveBeenLastCalledWith(mockError);
-    // });
-
-    // test('Then delete should...', async () => {
-    //   await controller.delete(mockRequest, mockResponse, mockNext);
-    //   expect(mockNext).toHaveBeenLastCalledWith(mockError);
-    // });
-
-    // test('Then getAll should...', async () => {
-    //   await controller.getAll(mockRequest, mockResponse, mockNext);
-    //   expect(mockNext).toHaveBeenLastCalledWith(mockError);
-    // });
   });
 });
