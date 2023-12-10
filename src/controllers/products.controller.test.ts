@@ -55,6 +55,7 @@ describe('Given UsersController class', () => {
     const mockRepo = {
       create: jest.fn().mockResolvedValue({}),
       getById: jest.fn().mockResolvedValue({}),
+      update: jest.fn().mockResolvedValue({}),
     } as unknown as ProductsMongoRepo;
 
     controller = new ProdcutsController(mockRepo);
@@ -81,6 +82,14 @@ describe('Given UsersController class', () => {
 
       expect(mockRepo.getById).toHaveBeenCalledWith('');
       expect(mockResponse.json).toHaveBeenCalled();
+    });
+
+    test('Then update should', async () => {
+      await controller.update(mockRequest, mockResponse, mockNext);
+
+      expect(
+        mockCloudinaryService.uploadImageToCloudinary
+      ).toHaveBeenCalledWith('/tmp/test.jpg');
     });
   });
 
