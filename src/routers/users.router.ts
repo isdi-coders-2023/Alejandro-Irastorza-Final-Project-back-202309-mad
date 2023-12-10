@@ -4,7 +4,7 @@ import { UsersMongoRepo } from '../repo/users/users.mongo.repo.js';
 import { UsersController } from '../controllers/users.controller.js';
 import { FileInterceptor } from '../middleware/file.interceptor.js';
 
-const debug = createDebug('AB:tasks:router');
+const debug = createDebug('AB:users:router');
 
 export const usersRouter = createRouter();
 debug('Starting Users Router');
