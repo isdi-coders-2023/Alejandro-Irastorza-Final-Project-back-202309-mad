@@ -15,20 +15,17 @@ const fileInterceptor = new FileInterceptor();
 
 productsRouter.get('/', controller.getAll.bind(controller));
 productsRouter.post(
-  '/admin/products',
+  '/admin/add',
   fileInterceptor.singleFileStore('modelImg').bind(fileInterceptor),
   controller.create.bind(controller)
 );
 
 productsRouter.patch(
-  '/admin/products/:id',
+  '/admin/update/:id',
   fileInterceptor.singleFileStore('modelImg').bind(fileInterceptor),
   controller.update.bind(controller)
 );
 
-productsRouter.delete(
-  '/admin/products/:id',
-  controller.delete.bind(controller)
-);
+productsRouter.delete('/admin/delete/:id', controller.delete.bind(controller));
 
-productsRouter.get('/admin/products/:id', controller.getById.bind(controller));
+productsRouter.get('/admin/find/:id', controller.getById.bind(controller));
