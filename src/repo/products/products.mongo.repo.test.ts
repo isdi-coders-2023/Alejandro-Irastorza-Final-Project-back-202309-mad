@@ -8,10 +8,6 @@ describe('Given ProductsMongoRepo', () => {
     const exec = jest.fn().mockResolvedValue('Example result value');
 
     beforeEach(() => {
-      ProductModel.find = jest.fn().mockReturnValue({
-        exec,
-      });
-
       ProductModel.findById = jest.fn().mockReturnValue({
         exec,
       });
@@ -34,6 +30,9 @@ describe('Given ProductsMongoRepo', () => {
     });
 
     test('Then it should execute getAll()', async () => {
+      ProductModel.find = jest.fn().mockReturnValue({
+        exec,
+      });
       const result = await repo.getAll();
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Example result value');
@@ -61,16 +60,19 @@ describe('Given ProductsMongoRepo', () => {
       expect(result).toBe(undefined);
       expect(exec).toHaveBeenCalled();
     });
+
+    test('Then it should execute getByCategory()', async () => {
+      ProductModel.find = jest.fn().mockResolvedValue([]);
+
+      const result = await repo.getByCategory('');
+      expect(result).toStrictEqual([]);
+    });
   });
 
   describe('When we instantiate it with errors', () => {
     const exec = jest.fn().mockResolvedValue(undefined);
 
     beforeEach(() => {
-      ProductModel.find = jest.fn().mockReturnValue({
-        exec,
-      });
-
       ProductModel.findById = jest.fn().mockReturnValue({
         exec,
       });
@@ -92,6 +94,9 @@ describe('Given ProductsMongoRepo', () => {
     });
 
     test('Then should execute getAll() throwing an error', async () => {
+      ProductModel.find = jest.fn().mockReturnValue({
+        exec,
+      });
       expect(repo.getAll()).rejects.toThrow();
     });
 
@@ -111,6 +116,11 @@ describe('Given ProductsMongoRepo', () => {
 
     test('Then should execute create() throwing an error', async () => {
       expect(repo.create({} as Omit<Product, 'id'>)).rejects.toThrow();
+    });
+
+    test('Then should execute getByCategory() throwing an error', async () => {
+      ProductModel.find = jest.fn().mockResolvedValue(undefined);
+      expect(repo.getByCategory('')).rejects.toThrow();
     });
   });
 });
