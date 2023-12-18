@@ -31,7 +31,7 @@ describe('Given UsersController class', () => {
 
     mockRequest = {
       body: {},
-      params: { id: '' },
+      params: { id: '', category: '' },
       query: { key: 'value' },
       file: mockFile,
     } as unknown as Request;
@@ -56,6 +56,7 @@ describe('Given UsersController class', () => {
       create: jest.fn().mockResolvedValue({}),
       getById: jest.fn().mockResolvedValue({}),
       update: jest.fn().mockResolvedValue({}),
+      getByCategory: jest.fn().mockResolvedValue({}),
     } as unknown as ProductsMongoRepo;
 
     controller = new ProdcutsController(mockRepo);
@@ -91,6 +92,13 @@ describe('Given UsersController class', () => {
         mockCloudinaryService.uploadImageToCloudinary
       ).toHaveBeenCalledWith('/tmp/test.jpg');
     });
+
+    test('Then getByCategory should', async () => {
+      await controller.getByCategory(mockRequest, mockResponse, mockNext);
+
+      expect(mockRepo.getByCategory).toHaveBeenCalledWith('');
+      expect(mockResponse.json).toHaveBeenCalled();
+    });
   });
 
   describe('When we instantiate with errors', () => {
@@ -124,6 +132,22 @@ describe('Given UsersController class', () => {
       } as unknown as Request;
 
       await controller.getById(mockRequestWithNoId, mockResponse, mockNext);
+
+      expect(mockNext).toHaveBeenCalled();
+    });
+
+    test('Then getByCategory should...', async () => {
+      const mockRequestWithNoCategory = {
+        body: {},
+        params: {},
+        query: { key: 'value' },
+      } as unknown as Request;
+
+      await controller.getByCategory(
+        mockRequestWithNoCategory,
+        mockResponse,
+        mockNext
+      );
 
       expect(mockNext).toHaveBeenCalled();
     });
