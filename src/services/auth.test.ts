@@ -27,5 +27,12 @@ describe('Given Auth abstract class', () => {
       expect(jwt.sign).toHaveBeenCalled();
       expect(result).toBe(true);
     });
+
+    test('Then verifyAndGetPayload should ', () => {
+      (jwt.verify as jest.Mock).mockReturnValue(true);
+      const result = Auth.verifyAndGetPayload('');
+      expect(jwt.verify).toHaveBeenCalled();
+      expect(result).toBe(true);
+    });
   });
 });

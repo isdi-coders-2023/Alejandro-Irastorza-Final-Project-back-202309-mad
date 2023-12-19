@@ -3,6 +3,7 @@ import { hash, compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User } from '../entities/user';
 import 'dotenv/config';
+import { HttpError } from '../types/http.error/http.error.js';
 
 const debug = createDebug('AB:auth');
 debug('Imported');
@@ -26,5 +27,17 @@ export abstract class Auth {
 
   static getTokenJWT(payload: TokenPayload) {
     return jwt.sign(payload, Auth.secret!);
+  }
+
+  static verifyAndGetPayload(token: string) {
+    try {
+      const result = jwt.verify(token, Auth.secret!);
+
+      if (typeof result === 'string')
+        throw new HttpError(498, 'Invalid Token', result);
+      return result as TokenPayload;
+    } catch (error) {
+      throw new HttpError(498, 'Invalid Token', (error as Error).message);
+    }
   }
 }
