@@ -12,7 +12,7 @@ export class ProductsMongoRepo implements Repository<Product> {
   }
 
   async getAll(): Promise<Product[]> {
-    const result = await ProductModel.find().exec();
+    const result = await ProductModel.find().populate('creator').exec();
     if (!result)
       throw new HttpError(404, 'Not Found', 'getAll method not possible');
     return result;
@@ -54,5 +54,14 @@ export class ProductsMongoRepo implements Repository<Product> {
 
     if (!result)
       throw new HttpError(406, 'Not Found', 'Delete was not possible');
+  }
+
+  async getByCategory(category: String): Promise<Product[]> {
+    const result = await ProductModel.find({ category }).populate('creator');
+
+    if (!result)
+      throw new HttpError(406, 'Not Found', 'Delete was not possible');
+
+    return result;
   }
 }
