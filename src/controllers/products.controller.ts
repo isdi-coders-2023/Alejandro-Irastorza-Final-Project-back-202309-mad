@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { Product } from '../entities/product.js';
 import { ProductsMongoRepo } from '../repo/products/products.mongo.repo';
 import createDebug from 'debug';
@@ -18,11 +19,14 @@ export class ProdcutsController extends Controller<Product> {
       if (!req.file)
         throw new HttpError(406, 'Not Acceptable', 'Multer file is invalid');
 
+      const userId = req.body.userId;
+
       const imgData = await this.cloudinaryService.uploadImageToCloudinary(
         req.file.path
       );
 
       req.body.modelImg = imgData;
+      req.body.creator = userId;
       super.create(req, res, next);
     } catch (error) {
       next(error);
@@ -39,5 +43,14 @@ export class ProdcutsController extends Controller<Product> {
     }
 
     super.update(req, res, next);
+  }
+
+  async getByCategory(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await this.repo.getByCategory(req.params.category);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 }
