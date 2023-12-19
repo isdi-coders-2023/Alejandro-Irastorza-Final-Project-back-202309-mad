@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { FileInterceptor } from './file.interceptor';
 import multer from 'multer';
+import 'crypto';
 
 jest.mock('multer');
 
