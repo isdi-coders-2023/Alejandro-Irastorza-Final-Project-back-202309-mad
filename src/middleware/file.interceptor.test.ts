@@ -1,38 +1,25 @@
+import { Request, Response } from 'express';
 import { FileInterceptor } from './file.interceptor';
-import 'crypto';
+import multer from 'multer';
 
-jest.mock('crypto', () => ({
-  randomUUID: jest.fn().mockReturnValue(''),
-}));
+jest.mock('multer');
 
-describe('Given FileInterceptorClass', () => {
-  const fileInterceptor = new FileInterceptor();
+describe('Given FileInterceptor', () => {
+  const middlewareMock = jest.fn();
+  const single = jest.fn().mockReturnValue(middlewareMock);
+  multer.diskStorage = jest
+    .fn()
+    .mockImplementation(({ filename }) => filename('', '', () => {}));
+  (multer as unknown as jest.Mock).mockReturnValue({ single });
 
-  test('it should return a middleware of type function ', () => {
-    const result = fileInterceptor.singleFileStore();
-    expect(typeof result).toBe('function');
+  describe('When we instantiate it', () => {
+    const interceptor = new FileInterceptor();
+
+    test('Then singleFileStore should be used', () => {
+      interceptor.singleFileStore()({} as Request, {} as Response, jest.fn());
+      expect(multer.diskStorage).toHaveBeenCalled();
+      expect(single).toHaveBeenCalled();
+      expect(middlewareMock).toHaveBeenCalled();
+    });
   });
-
-  // Test('it should set up multer with expected options', () => {
-  //   const multerInstance = multer({
-  //     storage: multer.diskStorage({
-  //       destination: './public/uploads',
-  //       filename(_req, file, callback) {
-  //         const prefix = crypto.randomUUID();
-  //         callback(null, prefix + '-alien-bar-' + file.originalname);
-  //       },
-  //     }),
-  //     limits: { fileSize: 8000000 },
-  //   });
-
-  //   const middleware = fileInterceptor.singleFileStore();
-
-  //   const mockRequest = {} as Request;
-  //   const mockResponse = {} as Response;
-  //   const mockNext = jest.fn() as NextFunction;
-
-  //   middleware(mockRequest, mockResponse, mockNext);
-
-  //   expect(multerInstance).toBeDefined();
-  // });
 });

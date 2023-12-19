@@ -67,7 +67,7 @@ describe('Given UsersController class', () => {
     };
     controller.cloudinaryService = mockCloudinaryService as MediaFiles;
 
-    test('Then create should...', async () => {
+    test('Then create should be called with modelImg', async () => {
       await controller.create(mockRequest, mockResponse, mockNext);
       expect(mockResponse.json).toHaveBeenCalledWith({});
       expect(mockRepo.create).toHaveBeenCalledWith({
@@ -78,14 +78,14 @@ describe('Given UsersController class', () => {
       ).toHaveBeenCalledWith('/tmp/test.jpg');
     });
 
-    test('Then getById should', async () => {
+    test('Then getById should return a json response', async () => {
       await controller.getById(mockRequest, mockResponse, mockNext);
 
       expect(mockRepo.getById).toHaveBeenCalledWith('');
       expect(mockResponse.json).toHaveBeenCalled();
     });
 
-    test('Then update should', async () => {
+    test('Then update should call cloudinary', async () => {
       await controller.update(mockRequest, mockResponse, mockNext);
 
       expect(
@@ -93,7 +93,7 @@ describe('Given UsersController class', () => {
       ).toHaveBeenCalledWith('/tmp/test.jpg');
     });
 
-    test('Then getByCategory should', async () => {
+    test('Then getByCategory should return a json response', async () => {
       await controller.getByCategory(mockRequest, mockResponse, mockNext);
 
       expect(mockRepo.getByCategory).toHaveBeenCalledWith('');
@@ -119,12 +119,12 @@ describe('Given UsersController class', () => {
       controller = new ProdcutsController(mockRepo);
     });
 
-    test('Then create should...', async () => {
+    test('Then create should call next function', async () => {
       await controller.create(mockRequestWithNoFile, mockResponse, mockNext);
       expect(mockNext).toHaveBeenCalled();
     });
 
-    test('Then getById should...', async () => {
+    test('Then getById should call next function', async () => {
       const mockRequestWithNoId = {
         body: {},
         params: {},
@@ -136,7 +136,7 @@ describe('Given UsersController class', () => {
       expect(mockNext).toHaveBeenCalled();
     });
 
-    test('Then getByCategory should...', async () => {
+    test('Then getByCategory should call next function', async () => {
       const mockRequestWithNoCategory = {
         body: {},
         params: {},
