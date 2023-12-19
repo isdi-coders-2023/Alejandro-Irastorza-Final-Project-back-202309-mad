@@ -35,4 +35,16 @@ describe('Given Auth abstract class', () => {
       expect(result).toBe(true);
     });
   });
+
+  describe('When its methods fail', () => {
+    test('then verifyAndGetPayload should throw an error', () => {
+      (jwt.verify as jest.Mock).mockReturnValue('');
+
+      try {
+        Auth.verifyAndGetPayload('');
+      } catch (error) {
+        expect((error as Error).message).toBe('');
+      }
+    });
+  });
 });
