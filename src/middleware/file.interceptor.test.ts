@@ -1,12 +1,8 @@
 import { Request, Response } from 'express';
 import { FileInterceptor } from './file.interceptor';
 import multer from 'multer';
-import 'crypto';
 
 jest.mock('multer');
-jest.mock('crypto', () => ({
-  crypto: { randomUUID: jest.fn().mockReturnValue(12345) },
-}));
 
 describe('Given FileInterceptor', () => {
   const middlewareMock = jest.fn();
