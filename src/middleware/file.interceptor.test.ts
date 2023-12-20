@@ -4,6 +4,9 @@ import multer from 'multer';
 import 'crypto';
 
 jest.mock('multer');
+jest.mock('crypto', () => ({
+  randomUUID: jest.fn().mockReturnValue(12345),
+}));
 
 describe('Given FileInterceptor', () => {
   const middlewareMock = jest.fn();
