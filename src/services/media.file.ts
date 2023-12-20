@@ -13,7 +13,6 @@ export class MediaFiles {
     });
 
     debug('Instantiated');
-    // Debug('Key', cloudinary.config().api_key);
   }
 
   async uploadImageToCloudinary(imgPath: string) {

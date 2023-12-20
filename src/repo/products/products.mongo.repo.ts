@@ -56,7 +56,7 @@ export class ProductsMongoRepo implements Repository<Product> {
       throw new HttpError(406, 'Not Found', 'Delete was not possible');
   }
 
-  async getByCategory(category: String): Promise<Product[]> {
+  async getByCategory(category: string): Promise<Product[]> {
     const result = await ProductModel.find({ category }).populate('creator');
 
     if (!result)
