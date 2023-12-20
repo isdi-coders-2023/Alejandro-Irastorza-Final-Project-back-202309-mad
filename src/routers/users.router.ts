@@ -13,7 +13,6 @@ const repo = new UsersMongoRepo();
 const controller = new UsersController(repo);
 const fileInterceptor = new FileInterceptor();
 
-usersRouter.get('/', controller.getAll.bind(controller));
 usersRouter.post(
   '/admin/register',
   fileInterceptor.singleFileStore('profilePic').bind(fileInterceptor),
